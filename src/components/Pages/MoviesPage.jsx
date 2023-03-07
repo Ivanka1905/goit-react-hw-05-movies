@@ -40,7 +40,7 @@ const MoviesPage = () => {
       {movies  &&(
         <>
           <FilmList>
-            {movies.map(({ id, title, poster_path }) => {
+            {movies.map(({ id, title, poster_path, backdrop_path }) => {
               return (
                 <FilmItem key={id}>
                   <FilmItemLink
@@ -50,7 +50,7 @@ const MoviesPage = () => {
                     <img
                       src={poster_path
                           ? `https://image.tmdb.org/t/p/w500${poster_path}`
-                          : '../../../public/default.png'
+                          : `https://image.tmdb.org/t/p/w500${backdrop_path}`
                       }
                       alt={title}
                       width="200px"
