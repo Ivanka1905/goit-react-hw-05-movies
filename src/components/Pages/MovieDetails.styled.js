@@ -66,3 +66,13 @@ export const AdditionUl = styled.ul`
   padding: 20px;
   flex-wrap: wrap;
 `;
+
+export const NoImg = styled.div`
+  display: block;
+  width: 300px;
+  height: 350px;
+  padding: 2px;
+  text-align: center;
+  background-color: #c7c6c5;
+  font-size: 20px;
+`;

@@ -47,10 +47,12 @@ export const FilmName = styled.div`
   text-align: center;
 `;
 
-export const Alternative = styled.div`
-   font-size: 20px;
-  line-height: 1.6;
-  letter-spacing: 0.03em;
-  padding: 4px;
- 
+export const NoImg = styled.div`
+  display: block;
+  width: 200px;
+  height: 250px;
+  padding: 2px;
+  text-align: center;
+  background-color: #c7c6c5;
+  font-size: 20px;
 `;

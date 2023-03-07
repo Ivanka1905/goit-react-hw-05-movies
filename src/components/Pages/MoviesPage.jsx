@@ -8,6 +8,7 @@ import {
   FilmItem,
   FilmItemLink,
   FilmName,
+  NoImg,
 } from './MoviesPages.styled';
 
 
@@ -46,15 +47,15 @@ const MoviesPage = () => {
                   <FilmItemLink
                     to={`${id.toString()}`}
                     state={{ from: `${location.pathname}${location.search}` }}
-                  >
-                    <img
+                  >{(poster_path !== null || backdrop_path !== null) ? <img
                       src={poster_path
                           ? `https://image.tmdb.org/t/p/w500${poster_path}`
                           : `https://image.tmdb.org/t/p/w500${backdrop_path}`
                       }
                       alt={title}
                       width="200px"
-                    />
+                    /> : <NoImg>{ title}</NoImg>}
+                    
                     <FilmName>{title}</FilmName>
                   </FilmItemLink>
                 </FilmItem>

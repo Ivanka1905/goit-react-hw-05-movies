@@ -8,6 +8,7 @@ import {
   Text,
   Addition,
   AdditionUl,
+  NoImg
 } from './MovieDetails.styled';
 
 const MovieDetails = () => {
@@ -21,7 +22,7 @@ const MovieDetails = () => {
       .catch(err => console.log(err));
   }, [id]);
 
-  const { title, release_date, poster_path, overview, vote_average, genres } =
+  const { title, release_date, poster_path, overview, vote_average, genres, backdrop_path } =
     movie;
   return (
     !!movie.id && (
@@ -31,8 +32,15 @@ const MovieDetails = () => {
           <Title>
             {title} ({release_date && release_date.slice(0, 4)})
           </Title>
-          <Container>
-            <img
+          <Container>{(poster_path !== null || backdrop_path !== null) ? <img
+                      src={poster_path
+                          ? `https://image.tmdb.org/t/p/w500${poster_path}`
+                          : `https://image.tmdb.org/t/p/w500${backdrop_path}`
+                      }
+                      alt={title}
+                      width="200px"
+                    /> : <NoImg>{ title}</NoImg>}
+            {/* <img
               src={
                 poster_path
                   ? `https://image.tmdb.org/t/p/w500${poster_path}`
@@ -40,7 +48,7 @@ const MovieDetails = () => {
               }
               alt={title}
               width="300px"
-            />
+            /> */}
             <Text>
               <p>
                 <b>User Score: </b>
