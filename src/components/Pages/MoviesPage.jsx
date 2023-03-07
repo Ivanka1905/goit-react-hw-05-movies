@@ -1,52 +1,25 @@
-// import React, { useState, useEffect } from 'react';
-// import { NavLink, Outlet } from 'react-router-dom';
-// import { dataLoad } from 'services/MoviesApi';
-
-// export const MoviesPage = () => {
-//   const [movies, setMovies] = useState([]);
-//   const page = 1;
-
-//   useEffect(() => {
-//     fetchMovies(page);
-//   }, [page]);
-
-//   function fetchMovies(page) {
-//     dataLoad(page)
-//       .then(setMovies)
-//       .catch(err => console.log(err));
-//   }
-
-//   return (
-//     movies && (
-//       <>
-//         <ul>
-//           {movies.map(({ id, title }) => {
-//             return (
-//               <li key={id}>
-//                 <NavLink to={id.toString()}>{title}</NavLink>
-//               </li>
-//             );
-//           })}
-//         </ul>
-//         <Outlet />
-//       </>
-//     )
-//   );
-// };
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useSearchParams, useLocation } from 'react-router-dom';
 import { getSearchFilms } from 'services/MoviesApi';
-import { NavLink, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
+import {
+  Title,
+  FilmList,
+  FilmItem,
+  FilmItemLink,
+  FilmName,
+} from './MoviesPages.styled';
 
-export const MoviesPage = () => {
+const MoviesPage = () => {
   const [movies, setMovies] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const getParams = searchParams.get('query');
   const location = useLocation();
-  
 
   useEffect(() => {
+    if (getParams === null) {
+      return;
+    };
     getParams && getSearchFilms(getParams, 1).then(setMovies);
   }, [getParams]);
 
@@ -55,29 +28,46 @@ export const MoviesPage = () => {
     const query = e.currentTarget.inputEl.value;
     setSearchParams({ query });
     e.currentTarget.inputEl.value = '';
-
   }
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <Title onSubmit={handleSubmit}>
         <input name="inputEl" />
         <button type="submit">Search</button>
-      </form>
-      {movies && (
+      </Title>
+      {movies  &&(
         <>
-          <ul>
-            {movies.map(({ id, title }) => {
+          <FilmList>
+            {movies.map(({ id, title, poster_path }) => {
               return (
-                <li key={id}>
-                  <NavLink to={`${id.toString()}`} state={{ search: `${location.pathname}${location.search}` }}>{title}</NavLink>
-                </li>
+                <FilmItem key={id}>
+                  <FilmItemLink
+                    to={`${id.toString()}`}
+                    state={{ from: `${location.pathname}${location.search}` }}
+                  >
+                    <img
+                      src={
+                        poster_path
+                          ? `https://image.tmdb.org/t/p/w500${poster_path}`
+                          : '../../public/pngwing.png'
+                      }
+                      alt={title}
+                      width="200px"
+                    />
+                    <FilmName>{title}</FilmName>
+                  </FilmItemLink>
+                </FilmItem>
               );
             })}
-          </ul>
+          </FilmList>
+            <Suspense fallback={null}>
           <Outlet />
+        </Suspense>
         </>
-      )}
+      ) }
     </>
   );
 };
+
+export default MoviesPage;

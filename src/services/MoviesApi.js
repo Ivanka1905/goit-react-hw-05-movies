@@ -8,39 +8,44 @@ export async function dataLoad() {
   const response = await axios('trending/movie/day', {
     params: {
       api_key: KEY,
-      // page,
     },
   });
   return response.data.results;
-};
+}
 
 export async function getSearchFilms(query) {
   const response = await axios('search/movie', {
     params: {
       api_key: KEY,
-      // page,
       query,
     },
   });
   return response.data.results;
-};
+}
 
 export async function getDetails(id) {
   const response = await axios(`/movie/${id}`, {
     params: {
       api_key: KEY,
-       },
+    },
   });
-   return response.data;
-};
+  return response.data;
+}
 
-export async function getReviews() {
+export async function getReviews(id) {
   const response = await axios(`/movie/${id}/reviews`, {
     params: {
       api_key: KEY,
-      id,
-       },
+    },
   });
-    return response.data.data.results;
-};
+  return response.data.results;
+}
 
+export async function getCredits(id) {
+  const response = await axios(`/movie/${id}/credits`, {
+    params: {
+      api_key: KEY,
+    },
+  });
+  return response.data.cast;
+}

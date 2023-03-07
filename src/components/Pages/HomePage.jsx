@@ -1,18 +1,16 @@
-// import React from 'react'
-
-// export const HomePage = () => {
-//   return (
-//     <div>HomePage</div>
-//   )
-// }
-
-import React, { useState, useEffect } from 'react';
-import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import React, { useState, useEffect, Suspense } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
 import { dataLoad } from 'services/MoviesApi';
+import {
+  Title,
+  FilmList,
+  FilmItem,
+  FilmItemLink,
+  FilmName,
+} from './HomePage.styled';
 
 export const HomePage = () => {
   const [movies, setMovies] = useState([]);
-  // const page = 1;
   const location = useLocation();
 
   useEffect(() => {
@@ -28,22 +26,33 @@ export const HomePage = () => {
   return (
     movies && (
       <>
-        <h1>Trending today</h1>
-        <ul>
-          {movies.map(({ id, title, name }) => {
+        <Title>Trending today</Title>
+        <FilmList>
+          {movies.map(({ id, title, name, poster_path }) => {
             return (
-              <li key={id}>
-                <NavLink
+              <FilmItem key={id}>
+                <FilmItemLink
                   to={`movies/${id.toString()}`}
-                  state={{ search: `${location.pathname}` }}
+                  state={{ from: `${location.pathname}` }}
                 >
-                  {title ? title : name}
-                </NavLink>
-              </li>
+                  <img
+                    src={
+                      poster_path
+                        ? `https://image.tmdb.org/t/p/w500${poster_path}`
+                        : '../../public/pngwing.png'
+                    }
+                    alt={title}
+                    width="200px"
+                  />
+                </FilmItemLink>
+                <FilmName>{title ? title : name}</FilmName>
+              </FilmItem>
             );
           })}
-        </ul>
-        <Outlet />
+        </FilmList>
+        <Suspense fallback={null}>
+          <Outlet />
+        </Suspense>
       </>
     )
   );

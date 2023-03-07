@@ -11,9 +11,6 @@ export const Navigation = () => {
         <li>
           <NavItem to="movies">Movies</NavItem>
         </li>
-        {/* <li>
-          <NavItem to="search">Search</NavItem>
-        </li> */}
       </NavUl>
     </nav>
   );
