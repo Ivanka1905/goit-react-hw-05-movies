@@ -10,6 +10,7 @@ import {
   FilmName,
 } from './MoviesPages.styled';
 
+
 const MoviesPage = () => {
   const [movies, setMovies] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -47,10 +48,9 @@ const MoviesPage = () => {
                     state={{ from: `${location.pathname}${location.search}` }}
                   >
                     <img
-                      src={
-                        poster_path
+                      src={poster_path
                           ? `https://image.tmdb.org/t/p/w500${poster_path}`
-                          : '../../public/pngwing.png'
+                          : '../../../public/default.png'
                       }
                       alt={title}
                       width="200px"
